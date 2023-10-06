@@ -23,7 +23,9 @@ npx sequelize-cli db:migrate
 
 1. Inicie o servidor de desenvolvimento:
 
-tsc --watch
+tsc --watch 
+
+
 nodemon dist/index.js
 
 
