@@ -15,19 +15,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAgricultor = exports.updateAgricultor = exports.postAgricultor = exports.getAgricultor = exports.getAgricultores = void 0;
 const agricultor_1 = __importDefault(require("../models/agricultor"));
 const getAgricultores = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listAgricultores = yield agricultor_1.default.findAll();
-    res.json(listAgricultores);
+    try {
+        const listAgricultores = yield agricultor_1.default.findAll();
+        res.json(listAgricultores);
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: `Erro ao buscar agricultores`
+        });
+    }
 });
 exports.getAgricultores = getAgricultores;
 const getAgricultor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const agricultor = yield agricultor_1.default.findByPk(id);
-    if (agricultor) {
-        res.json(agricultor);
+    try {
+        const agricultor = yield agricultor_1.default.findByPk(id);
+        if (agricultor) {
+            res.json(agricultor);
+        }
+        else {
+            res.status(404).json({
+                msg: `Não existe nenhum agricultor com o id ${id} cadastrado na base de dados `
+            });
+        }
     }
-    else {
-        res.status(404).json({
-            msg: `Não existe nenhum agricultor com o id ${id} cadastrado na base de dados `
+    catch (error) {
+        res.status(400).json({
+            msg: `Erro ao buscar agricultor de id ${id}`
         });
     }
 });
@@ -42,8 +56,7 @@ const postAgricultor = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        console.log(error);
-        res.json({
+        res.status(400).json({
             msg: 'Ocorreu um erro ao cadastrar o agricultor',
         });
     }
@@ -52,8 +65,8 @@ exports.postAgricultor = postAgricultor;
 const updateAgricultor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { id } = req.params;
-    const agricultor = yield agricultor_1.default.findByPk(id);
     try {
+        const agricultor = yield agricultor_1.default.findByPk(id);
         if (agricultor) {
             yield agricultor.update(body);
             res.json({
@@ -68,8 +81,7 @@ const updateAgricultor = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
     }
     catch (error) {
-        console.log(error);
-        res.json({
+        res.status(400).json({
             msg: 'Ocorreu um erro ao atualizar o agricultor',
         });
     }
