@@ -23,7 +23,8 @@ npx sequelize-cli db:migrate
 
 1. Inicie o servidor de desenvolvimento:
 
-npm start
+tsc --watch
+nodemon dist/index.js
 
 
 O servidor estará disponível em `http://localhost:PORT`, onde `PORT` é a porta configurada no projeto, por exemplo '3001'.
